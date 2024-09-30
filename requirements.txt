@@ -12,4 +12,5 @@ djangorestframework
 requests
 beautifulsoup4
 selenium
-Django==5.1.1
+Django
+scrapy
