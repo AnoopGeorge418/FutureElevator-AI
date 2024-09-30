@@ -3,7 +3,13 @@ pandas
 matplotlib
 seaborn
 scikit-learn
-django
 plotly
 dvc
-react
+docker
+postgres
+pymongo
+djangorestframework
+requests
+beautifulsoup4
+selenium
+Django==5.1.1
