@@ -30,82 +30,102 @@
 FutureElevator-AI/
 │
 ├── README.md                    # Project documentation and overview
-├── requirements.txt              # List of dependencies
+├── requirements.txt              # Python dependencies
+├── package.json                  # React frontend dependencies
 ├── .gitignore                    # Files to ignore in version control
-├── config.py                     # Configuration file (e.g., API keys, database URI)
+├── config.py                     # Configuration file (API keys, database URIs, etc.)
+├── manage.py                     # Django command-line utility
 ├── pipelines/                    # Folder containing data pipelines and automation scripts
 │   ├── __init__.py               # To make it a package
 │   ├── data_ingestion.py         # Job data collection (API calls, web scraping)
-│   ├── resume_parser.py          # Preprocessing resumes (NLP)
+│   ├── resume_parser.py          # Resume parsing and text extraction
 │   ├── job_description_parser.py # Preprocessing job descriptions
-│   ├── feature_engineering.py    # Feature creation for resume/job matching
-│   ├── ats_checker.py            # ATS compliance checking pipeline
-│   ├── resume_enhancer.py        # NLP model for enhancing resumes
+│   ├── feature_engineering.py    # Feature engineering for job-resume matching
+│   ├── ats_checker.py            # ATS compliance checking
+│   ├── resume_enhancer.py        # NLP model to enhance resumes
 │   ├── cover_letter_gen.py       # Cover letter generation model
-│   ├── job_application.py        # Web automation script (Selenium)
+│   ├── job_application.py        # Job application automation script (Selenium)
 │   ├── cold_email.py             # Cold email automation script
-│   └── dashboard_pipeline.py     # Data aggregation for dashboard
+│   └── dashboard_pipeline.py     # Data aggregation for the dashboard
 │
 ├── src/                          # Core logic of the application (API, frontend, backend)
-│   ├── app.py                    # Flask/Django main application file
-│   ├── auth/                     # Authentication (login, signup)
-│   │   ├── __init__.py           # Auth package initialization
-│   │   ├── login.py              # Login functionality
-│   │   ├── signup.py             # Signup functionality
-│   └── routes/                   # Application routes
-│       ├── __init__.py           # Initialize routing module
-│       ├── job_application.py    # Job application handling
-│       ├── resume_upload.py      # Endpoint for resume upload
-│       ├── ats_check.py          # ATS checking route
-│       ├── dashboard.py          # User dashboard route
-│       └── cold_email.py         # Cold email endpoint
+│   ├── backend/                  # Django backend logic
+│   │   ├── FutureElevatorAI/     # Main Django app folder
+│   │   │   ├── __init__.py       # Django project initialization
+│   │   │   ├── settings.py       # Django project settings
+│   │   │   ├── urls.py           # Application URL routing
+│   │   │   ├── wsgi.py           # WSGI application entry point
+│   │   ├── auth/                 # Authentication (login, signup)
+│   │   │   ├── __init__.py       # Auth package initialization
+│   │   │   ├── views.py          # Views for login and signup
+│   │   │   ├── models.py         # Auth-related database models
+│   │   │   ├── serializers.py    # Auth serializers (for request validation)
+│   │   │   ├── urls.py           # Auth URL routing
+│   │   ├── job_app/              # Main job application functionality
+│   │   │   ├── __init__.py       # Package initialization
+│   │   │   ├── views.py          # Views for job applications, resume upload
+│   │   │   ├── models.py         # Database models for jobs, resumes
+│   │   │   ├── serializers.py    # Data serializers for job apps
+│   │   │   ├── urls.py           # URL routing for job application features
+│   │   └── templates/            # Django HTML templates (if needed for some pages)
+│   │       ├── layout.html       # Base layout template
+│   │       ├── login.html        # Login page
+│   │       ├── dashboard.html    # User dashboard page
+│   │       └── apply_job.html    # Job application page
+│   ├── frontend/                 # React frontend logic
+│   │   ├── public/               # Public assets (index.html, favicon, etc.)
+│   │   ├── src/                  # React application source code
+│   │   │   ├── components/       # Reusable React components
+│   │   │   │   ├── Auth/         # Login and signup forms
+│   │   │   │   ├── Dashboard/    # User dashboard components
+│   │   │   │   └── JobAppForm/   # Job application form components
+│   │   │   ├── pages/            # Pages (e.g., Dashboard, Job Application, Login)
+│   │   │   ├── services/         # API service to communicate with Django backend
+│   │   │   └── App.js            # Main React app component
+│   └── static/                   # Static files (CSS, JavaScript, images)
+│       ├── css/                  # Custom CSS
+│       └── js/                   # Custom JavaScript
 │
-├── models/                       # Contains machine learning models and preprocessing logic
+├── models/                       # Machine learning models for ATS, resume enhancement
 │   ├── __init__.py               # To make it a package
-│   ├── ats_model.py              # ATS compliance model (classifier)
-│   ├── resume_enhancer_model.py  # NLP model to enhance resumes
+│   ├── ats_model.py              # ATS compliance model
+│   ├── resume_enhancer_model.py  # NLP model for enhancing resumes
 │   ├── cover_letter_model.py     # GPT model for cover letter generation
 │   └── job_matching_model.py     # Model for job-resume matching
 │
-├── notebooks/                    # Jupyter notebooks for experimentation, EDA, and prototyping
-│   ├── EDA_resume_data.ipynb     # Exploratory data analysis of resumes
-│   ├── EDA_job_description.ipynb # EDA of job descriptions
-│   └── ats_model_experiments.ipynb # ATS model training experiments
+├── notebooks/                    # Jupyter notebooks for experiments
+│   ├── EDA_resume_data.ipynb     # EDA for resume data
+│   ├── EDA_job_description.ipynb # EDA for job description data
+│   └── ats_model_experiments.ipynb # ATS compliance model experiments
 │
 ├── data/                         # Data storage (raw, processed, and features)
-│   ├── raw/                      # Raw data collected from scraping/APIs
-│   │   ├── job_listings.json     # Raw job listing data (scraped/API)
-│   │   ├── resumes/              # Uploaded resumes (before preprocessing)
-│   ├── processed/                # Preprocessed data ready for modeling
-│   │   ├── resume_text.csv       # Preprocessed resume data
-│   │   ├── job_description.csv   # Cleaned job descriptions
-│   └── features/                 # Feature data for models
-│       ├── resume_features.csv   # Features extracted from resumes
-│       └── job_matching_features.csv # Matching features between resumes & jobs
+│   ├── raw/                      # Raw data (scraped job listings, resumes)
+│   ├── processed/                # Preprocessed data for machine learning models
+│   ├── features/                 # Feature data (job-resume matching)
+│   └── results/                  # Outputs (enhanced resumes, cover letters)
 │
-├── logs/                         # Application and pipeline logging for debugging
-│   ├── ingestion.log             # Logs for data ingestion pipeline
-│   ├── resume_parser.log         # Logs for resume parsing pipeline
-│   ├── job_application.log       # Logs for job application automation
-│   └── ats_checker.log           # Logs for ATS compliance checker
+├── logs/                         # Log files for tracking execution of pipelines
+│   ├── ingestion.log             # Log for job data ingestion
+│   ├── resume_parser.log         # Log for resume parsing
+│   ├── job_application.log       # Log for job application automation
+│   └── ats_checker.log           # Log for ATS compliance checking
 │
-├── tests/                        # Unit and integration tests for all components
-│   ├── test_auth.py              # Tests for authentication
-│   ├── test_pipelines.py         # Tests for pipeline functions
-│   ├── test_models.py            # Tests for models (ATS, resume enhancer)
-│   └── test_routes.py            # Tests for Flask/Django routes
+├── tests/                        # Unit and integration tests
+│   ├── test_auth.py              # Tests for authentication module
+│   ├── test_pipelines.py         # Tests for pipeline scripts
+│   ├── test_models.py            # Tests for machine learning models
+│   └── test_routes.py            # Tests for Django/React API routes
 │
-├── database/                     # Database scripts and models
-│   ├── schema.sql                # SQL schema for relational database (PostgreSQL)
-│   ├── migrations/               # Database migration files (e.g., Alembic for Flask)
-│   └── database_config.py        # Configurations for connecting to the database
+├── database/                     # Database scripts for PostgreSQL and MongoDB
+│   ├── schema.sql                # SQL schema for PostgreSQL
+│   ├── migrations/               # Django migrations for PostgreSQL
+│   └── mongo_setup.py            # MongoDB connection and setup
 │
-└── deployment/                   # Deployment scripts and Docker setup
-    ├── Dockerfile                # Dockerfile for containerization
-    ├── docker-compose.yml        # Docker-compose for multi-container setup
-    ├── setup.sh                  # Shell script to set up the environment
+└── deployment/                   # Deployment configuration and scripts
+    ├── Dockerfile                # Dockerfile for building the app
+    ├── docker-compose.yml        # Docker-Compose setup for multi-container development
     ├── nginx.conf                # Nginx configuration for serving the app
-    └── deploy_to_aws.sh          # Script for deploying to AWS (or GCP/Heroku)
+    └── deploy.sh                 # Deployment script (for cloud services like Heroku, AWS)
 
 ```
 
