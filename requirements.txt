@@ -6,3 +6,4 @@ scikit-learn
 django
 plotly
 dvc
+react
